@@ -1,0 +1,37 @@
+{% extends "groups/group_base.html" %}
+{% block pregroup %}
+<!--now this is the the class based views which we have declare in our views.py but here we have declare it in small letters-->
+<h1>{{group.name}}</h1>
+<h2>Member Count: {{group.members.count}}</h2>
+<!--what we are doing here is that we are creating a ount which is gonna  make sure that
+how many members are there in the grp "count here is inbuild function
+
+after that we are checking here that whether the member is present or not if it is present than provide the option
+to leave and the other things are icon present in bootstrap here(groups.members.all)"here"groups.members"
+is the view-->
+<div class="content">
+  {% if user in group.members.all %}
+  <!--#leave is not yert created-->
+  <a href="{% url 'groups:leave' slug=group.slug %}" class="btn btn-lg
+   btn-fill btn-warning"><span class="glyphicon glyphicon-remove-circle"></span>Leave</a>
+   {% else %}
+   <a href="{% url 'groups:join' slug=group.slug %}" class="btn btn-lg
+    btn-fill btn-warning"><span class="glyphicon glyphicon-ok-circle"></span>Join</a>
+   {% endif %}
+</div>
+{% endblock %}
+
+
+<!--here we are collecting lists of posts -->
+{% block group_content %}
+<div class="col-md-8">
+  {% if group.posts.count == 0 %}
+  <h2>No posts to show here!</h2>
+  {% else %}
+  {% for post in group.posts.all %}
+  <!--here "_" is just y=to tell ourself as a programmer that it is a file that is included-->
+  {% include "posts/_post.html" %}
+  {% endfor %}
+  {% endif %}
+</div>
+{% endblock %}
